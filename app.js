@@ -2,10 +2,9 @@ const express = require('express');
 const {sequelize} = require('./src/config/config');
 const { authRoutes } = require('./src/routes/authRoutes');
 const {protectedRoutes} = require('./src/routes/protectedRoutes');
-const { linkRoutes } = require('./src/routes/linkRoutes');
-const {userRoutes} = require('./src/routes/userRoutes');
+const { alunoRoutes } = require('./src/routes/alunoRoutes');
+const { professorRoutes } = require('./src/routes/professorRoutes');
 const cors = require('cors');
-
 
 require('dotenv').config();
 
@@ -13,10 +12,10 @@ const app = express();
 app.use(express.json());
 app.use(cors())
 
-app.use('/api/users', userRoutes )
+app.use('/api/professores', professorRoutes )
 app.use('/auth', authRoutes);
 app.use('/api', protectedRoutes);
-app.use('/api/links', linkRoutes);
+app.use('/api/alunos', alunoRoutes);
 
 const PORT = process.env.PORT || 3000;
 
