@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../config/config'); // Mantenha o caminho correto para sua config
 
-const Aluno = sequelize.define('Aluno', { // Nome do Modelo (geralmente singular)
+const Professor = sequelize.define('Professor', { // Nome do Modelo (geralmente singular)
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -28,9 +28,12 @@ const Aluno = sequelize.define('Aluno', { // Nome do Modelo (geralmente singular
     type: DataTypes.STRING(50), // Define o tamanho para VARCHAR(50)
     allowNull: true, // Permite nulo, já que é opcional
   },
+    tipo: {
+    type: DataTypes.STRING(50)
+  },
 }, {
-  tableName: 'alunos',   // Nome exato da tabela no banco
+  tableName: 'professores',   // Nome exato da tabela no banco
   timestamps: false,   // Desabilita as colunas createdAt e updatedAt
 });
 
-module.exports = { Aluno }; // Exporta o modelo 'Aluno'
+module.exports = { Professor }; // Exporta o modelo 'Professor'

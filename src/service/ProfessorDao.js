@@ -1,4 +1,4 @@
-const { Professor } = require("../model/Professores");
+const { Professor } = require("../model/ProfessoresDb");
 const bcrypt = require('bcryptjs');
 
 const ProfessorDao = {

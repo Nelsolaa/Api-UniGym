@@ -9,12 +9,12 @@ const router = express.Router();
 router.post('/register', ProfessorController.createProfessor);
 
 // 🔹 Buscar usuário por ID
-router.get('/:id', authMiddleware, ProfessorController.getProfessorById);
+router.get('/:id/buscar', ProfessorController.getProfessorById);
 
 // 🔹 Atualizar usuário
-router.put('/:id', authMiddleware, ProfessorController.updateProfessor);
+router.put('/:id/update', ProfessorController.updateProfessor);
 
 // 🔹 Deletar usuário
-router.delete('/:id', authMiddleware, ProfessorController.deleteProfessor);
+router.delete('/:id/delete', ProfessorController.deleteProfessor);
 
 module.exports = { professorRoutes: router };

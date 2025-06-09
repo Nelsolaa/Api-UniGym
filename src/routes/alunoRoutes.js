@@ -9,12 +9,12 @@ const router = express.Router();
 router.post('/register', AlunoController.createAluno);
 
 // 🔹 Obter Aluno específico (perfil)
-router.get('/:Id', authMiddleware, AlunoController.getAlunoById);
+router.get('/:Id/search', AlunoController.getAlunoById);
 
 // 🔹 Atualizar Aluno
-router.put('/:Id', authMiddleware, AlunoController.updateAluno);
+router.put('/:Id/update', AlunoController.updateAluno);
 
 // 🔹 Deletar Aluno
-router.delete('/:Id', authMiddleware, AlunoController.deleteAluno);
+router.delete('/:Id/delete', AlunoController.deleteAluno);
 
 module.exports = { alunoRoutes: router };

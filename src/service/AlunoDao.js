@@ -1,4 +1,4 @@
-const { Aluno } = require("../model/Alunos");
+const { Aluno } = require("../model/AlunosDb");
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
