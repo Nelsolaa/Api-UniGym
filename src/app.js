@@ -1,13 +1,13 @@
 const express = require('express');
-const { sequelize } = require('./src/config/config');
-const { authRoutes } = require('./src/routes/authRoutes');
-const { protectedRoutes } = require('./src/routes/protectedRoutes');
-const { alunoRoutes } = require('./src/routes/alunoRoutes');
-const { professorRoutes } = require('./src/routes/professorRoutes');
-const { exercicioRoutes } = require('./src/routes/exercicioRoutes');
-const { aulaRoutes } = require('./src/routes/aulaRoutes');
-const { fichaRoutes } = require('./src/routes/fichaRoutes');
-const { fichaExercicioRoutes } = require('./src/routes/fichaexercicioRoutes');
+const { sequelize } = require('./config/config');
+const { authRoutes } = require('./routes/authRoutes');
+const { protectedRoutes } = require('./routes/protectedRoutes');
+const { alunoRoutes } = require('./routes/alunoRoutes');
+const { professorRoutes } = require('./routes/professorRoutes');
+const { exercicioRoutes } = require('./routes/exercicioRoutes');
+const { aulaRoutes } = require('./routes/aulaRoutes');
+const { fichaRoutes } = require('./routes/fichaRoutes');
+const { fichaExercicioRoutes } = require('./routes/fichaexercicioRoutes');
 const cors = require('cors');
 const os = require('os');
 
