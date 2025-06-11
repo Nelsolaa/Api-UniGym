@@ -79,27 +79,29 @@ const AulaController = {
   },
 
   // ROTA: PUT /api/aulas/:id/agendar (Ex: Aluno agenda uma aula)
-  async agendarAula(req, res) {
+async agendarAula(req, res) {
     try {
-      const { id } = req.params; // ID da aula/slot
-      const alunoId = req.user?.id; // Pega o ID do aluno do token (via authMiddleware)
+        const { id } = req.params; // ID da aula/slot que vem da URL
+        
+        // ✅ CORREÇÃO: Pega o ID do aluno do CORPO da requisição
+        const { alunoId } = req.body; 
 
-      if (!alunoId || req.user?.type !== 'aluno') {
-          return res.status(403).json({ error: 'Apenas alunos podem agendar aulas.' });
-      }
+        // Validação
+        if (!alunoId) {
+            return res.status(400).json({ error: 'O ID do aluno é obrigatório no corpo da requisição.' });
+        }
 
-      const aulaAgendada = await AulaDao.agendarAula(id, alunoId);
-      res.json({ message: "Aula agendada com sucesso!", aula: aulaAgendada });
+        const aulaAgendada = await AulaDao.agendarAula(id, alunoId);
+        res.json({ message: "Aula agendada com sucesso!", aula: aulaAgendada });
 
     } catch (error) {
-      console.error("Erro em agendarAula:", error);
-      // Se o erro for 'Horário não está mais disponível', retorna 409 Conflict
-      if (error.message === 'Este horário não está mais disponível.') {
-        return res.status(409).json({ error: error.message });
-      }
-      res.status(500).json({ error: "Erro interno ao agendar aula: " + error.message });
+        console.error("Erro em agendarAula:", error);
+        if (error.message.includes('não está mais disponível')) {
+            return res.status(409).json({ error: error.message }); // 409 Conflict
+        }
+        res.status(500).json({ error: "Erro interno ao agendar aula: " + error.message });
     }
-  },
+},
 
    // ROTA: PUT /api/aulas/:id/cancelar (Ex: Aluno ou Prof cancela)
   async cancelarAula(req, res) {

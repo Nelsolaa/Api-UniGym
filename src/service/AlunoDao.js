@@ -34,6 +34,7 @@ const AlunoDao = {
    * Busca um aluno pelo ID.
    */
   async getAlunoById(alunoId) {
+    console.log("DAO: Buscando aluno com ID:", alunoId, "- Tipo do ID:", typeof alunoId);
     try {
       const aluno = await Aluno.findByPk(alunoId, {
          attributes: { exclude: ['password_hash'] }

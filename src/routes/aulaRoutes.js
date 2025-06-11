@@ -31,7 +31,7 @@ router.get(
 // Rota para Professor criar novos slots disponíveis.
 // Só professores logados podem acessar.
 router.post(
-    '/register', // Usamos a raiz (POST /api/aulas) para cria, 
+    '/register',
     AulaController.createAula
 );
 
