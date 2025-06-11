@@ -50,3 +50,5 @@ sequelize.sync().then(() => {
     console.log(`Acesse via navegador: http://${ip}:${PORT}`);
   });
 });
+
+module.exports =  { app };  
