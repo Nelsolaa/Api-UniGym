@@ -1,4 +1,6 @@
+// Importações necessárias
 const express = require('express');
+const cors = require('cors');
 const { sequelize } = require('./src/config/config');
 const { authRoutes } = require('./src/routes/authRoutes');
 const { protectedRoutes } = require('./src/routes/protectedRoutes');
@@ -8,16 +10,19 @@ const { exercicioRoutes } = require('./src/routes/exercicioRoutes');
 const { aulaRoutes } = require('./src/routes/aulaRoutes');
 const { fichaRoutes } = require('./src/routes/fichaRoutes');
 const { fichaExercicioRoutes } = require('./src/routes/fichaExercicioRoutes');
-const cors = require('cors');
-const os = require('os');
 
+// Carrega variáveis de ambiente e força a inclusão do driver 'pg'
 require('dotenv').config();
 require('pg');
 
+// Inicializa a aplicação Express
 const app = express();
-app.use(express.json());
-app.use(cors());
 
+// Configura os middlewares
+app.use(express.json()); // Para interpretar o corpo das requisições como JSON
+app.use(cors());         // Para permitir requisições de outras origens
+
+// Configura as rotas da sua API
 app.use('/api/professores', professorRoutes);
 app.use('/auth', authRoutes);
 app.use('/api', protectedRoutes);
@@ -27,29 +32,16 @@ app.use('/api/aulas', aulaRoutes);
 app.use('/api/fichas', fichaRoutes);
 app.use('/api/ficha-exercicios-admin', fichaExercicioRoutes);
 
-const PORT = process.env.PORT || 3000;
-
-// 🔹 Função para obter o IP local
-function getLocalIp() {
-  const interfaces = os.networkInterfaces();
-  for (const name of Object.keys(interfaces)) {
-    for (const iface of interfaces[name]) {
-      if (iface.family === 'IPv4' && !iface.internal) {
-        return iface.address;
-      }
-    }
-  }
-  return 'localhost';
-}
-
-// 🔹 Iniciar servidor e sincronizar banco de dados
-sequelize.sync().then(() => {
-  console.log('Banco de dados conectado!');
-  const ip = getLocalIp();
-  app.listen(PORT, () => {
-    console.log(`Servidor rodando na porta ${PORT}`);
-    console.log(`Acesse via navegador: http://${ip}:${PORT}`);
+// Sincroniza o banco de dados.
+// Isso inicia o processo, mas não impede que o app seja exportado.
+sequelize.sync()
+  .then(() => {
+    console.log('Conexão e sincronização com o banco de dados bem-sucedidas!');
+  })
+  .catch(err => {
+    console.error('Erro ao conectar ou sincronizar com o banco de dados:', err);
   });
-});
 
-module.exports =  { app };  
+// Exporta o app para que a Vercel possa usá-lo
+// Esta DEVE ser a última linha e no formato correto.
+module.exports = app;
