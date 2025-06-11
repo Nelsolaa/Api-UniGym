@@ -7,7 +7,7 @@ const { professorRoutes } = require('./src/routes/professorRoutes');
 const { exercicioRoutes } = require('./src/routes/exercicioRoutes');
 const { aulaRoutes } = require('./src/routes/aulaRoutes');
 const { fichaRoutes } = require('./src/routes/fichaRoutes');
-const { fichaExercicioRoutes } = require('./src/routes/fichaexercicioRoutes');
+const { fichaExercicioRoutes } = require('./src/routes/fichaExercicioRoutes');
 const cors = require('cors');
 const os = require('os');
 
