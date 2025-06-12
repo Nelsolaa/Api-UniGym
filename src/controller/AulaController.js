@@ -124,7 +124,35 @@ async agendarAula(req, res) {
         res.status(500).json({ error: "Erro interno ao cancelar aula: " + error.message });
     }
   },
+async findAulasAgendadasByProfessor(req, res) {
+    try {
+        const { professorId } = req.params;
 
+        // Validação básica para garantir que o ID foi passado
+        if (!professorId) {
+            return res.status(400).json({ error: 'O ID do professor é obrigatório na URL.' });
+        }
+
+        // Critérios para a busca no DAO: aulas do professor com status 'Agendada'
+        const criteria = {
+            professor_id: professorId,
+            status: 'Agendada'
+        };
+
+        const aulas = await AulaDao.findAulas(criteria);
+
+        // Retorna 404 se não encontrar nenhuma aula que corresponda
+        if (!aulas || aulas.length === 0) {
+            return res.status(404).json({ message: 'Nenhuma aula agendada encontrada para este professor.' });
+        }
+
+        res.json(aulas);
+
+    } catch (error) {
+        console.error("Erro ao buscar aulas agendadas do professor:", error);
+        res.status(500).json({ error: "Erro interno ao buscar as aulas." });
+    }
+},
   // ROTA: DELETE /api/aulas/:id (Ex: Professor deleta um slot)
   async deleteAula(req, res) {
     try {
@@ -148,6 +176,6 @@ async agendarAula(req, res) {
     }
   },
 
-};
+}
 
 module.exports = { AulaController };

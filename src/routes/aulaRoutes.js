@@ -55,6 +55,9 @@ router.delete(
     '/:id/delete',
     AulaController.deleteAula
 );
-
+router.get(
+    '/:professorId/agendadas',
+    AulaController.findAulasAgendadasByProfessor
+);
 
 module.exports = { aulaRoutes: router };
