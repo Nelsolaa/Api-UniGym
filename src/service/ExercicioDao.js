@@ -1,4 +1,4 @@
-const { Exercicio } = require("../model/ExerciciosDb"); // Certifique-se que o caminho e o nome do modelo estão corretos
+const { Exercicio } = require("../model/ExerciciosDb"); 
 
 const ExercicioDao = {
 

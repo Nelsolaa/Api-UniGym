@@ -1,9 +1,8 @@
-const { AulaDao } = require('../service/AulaDao'); // ⚠️ Verifique se este caminho está correto!
-const { Op } = require('sequelize'); // Usaremos para filtros de data, se necessário
+const { AulaDao } = require('../service/AulaDao'); 
+const { Op } = require('sequelize'); 
 
 const AulaController = {
 
-  // ROTA: POST /api/aulas (Ex: Professor cria um slot)
   async createAula(req, res) {
     try {
       const { professor_id, data_hora_inicio, data_hora_fim, status } = req.body;
@@ -83,7 +82,6 @@ async agendarAula(req, res) {
     try {
         const { id } = req.params; // ID da aula/slot que vem da URL
         
-        // ✅ CORREÇÃO: Pega o ID do aluno do CORPO da requisição
         const { alunoId } = req.body; 
 
         // Validação
@@ -107,11 +105,7 @@ async agendarAula(req, res) {
   async cancelarAula(req, res) {
     try {
         const { id } = req.params;
-        const user = req.user; // Pega o usuário do token
-
-        // TODO: Adicionar lógica para verificar se o 'user' logado
-        // é o aluno que marcou ou o professor dono da aula antes de cancelar.
-        // Por agora, apenas cancela.
+        const user = req.user;
 
         const aulaCancelada = await AulaDao.cancelarAula(id);
         if (!aulaCancelada) {
@@ -141,7 +135,6 @@ async findAulasAgendadasByProfessor(req, res) {
 
         const aulas = await AulaDao.findAulas(criteria);
 
-        // Retorna 404 se não encontrar nenhuma aula que corresponda
         if (!aulas || aulas.length === 0) {
             return res.status(404).json({ message: 'Nenhuma aula agendada encontrada para este professor.' });
         }
@@ -153,8 +146,8 @@ async findAulasAgendadasByProfessor(req, res) {
         res.status(500).json({ error: "Erro interno ao buscar as aulas." });
     }
 },
-  // ROTA: DELETE /api/aulas/:id (Ex: Professor deleta um slot)
-  async deleteAula(req, res) {
+ 
+async deleteAula(req, res) {
     try {
         const { id } = req.params;
         const user = req.user;
@@ -168,7 +161,7 @@ async findAulasAgendadasByProfessor(req, res) {
             return res.status(404).json({ error: 'Aula não encontrada.' });
         }
 
-        res.status(204).send(); // Sucesso, sem conteúdo
+        res.status(204).send();
 
     } catch (error) {
         console.error("Erro em deleteAula:", error);

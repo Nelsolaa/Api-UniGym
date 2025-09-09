@@ -4,8 +4,6 @@ const { authMiddleware } = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
-// === CRUD Principal da Ficha ===
-
 // Criar uma nova Ficha (com ou sem exercícios)
 // Apenas professores podem criar
 router.post('/register', FichaController.createFicha);
@@ -26,9 +24,6 @@ router.put('/:id/update', FichaController.updateFicha);
 // Deletar uma Ficha
 // Apenas professores podem deletar
 router.delete('/:id/delete', FichaController.deleteFicha);
-
-// === Gerenciamento de Exercícios DENTRO de uma Ficha ===
-// Estas rotas são "aninhadas" conceitualmente sob uma ficha específica.
 
 // Adicionar um exercício a uma ficha existente
 // Apenas professores podem modificar

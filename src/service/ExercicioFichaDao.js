@@ -1,10 +1,8 @@
-const { FichaExercicio, sequelize } = require('../model'); // Ajuste o caminho se necessário
+const { FichaExercicio, sequelize } = require('../model'); 
 
 const FichaExercicioDao = {
 
   async create(data) {
-    // data deve ser um objeto como:
-    // { ficha_id, exercicio_id, series, tempo_descanso }
     try {
       const fichaExercicio = await FichaExercicio.create(data);
       return fichaExercicio.toJSON();
@@ -15,7 +13,6 @@ const FichaExercicioDao = {
   },
 
   async getByPks(fichaId, exercicioId) {
-    // Busca uma ligação específica pela chave primária composta
     try {
       const fichaExercicio = await FichaExercicio.findOne({
         where: {
@@ -31,7 +28,6 @@ const FichaExercicioDao = {
   },
 
   async updateByPks(fichaId, exercicioId, updateData) {
-    // updateData deve ser um objeto com os campos a atualizar, ex: { series, tempo_descanso }
     try {
       const [updatedRows] = await FichaExercicio.update(updateData, {
         where: {
@@ -43,7 +39,7 @@ const FichaExercicioDao = {
       if (updatedRows > 0) {
         return this.getByPks(fichaId, exercicioId);
       }
-      return null; // Nenhum registro encontrado para atualizar
+      return null; 
     } catch (error) {
       console.error("Erro ao atualizar ligação Ficha-Exercício:", error);
       throw error;
@@ -58,7 +54,7 @@ const FichaExercicioDao = {
           exercicio_id: exercicioId,
         },
       });
-      return deletedRows > 0; // Retorna true se deletou, false se não
+      return deletedRows > 0; 
     } catch (error) {
       console.error("Erro ao deletar ligação Ficha-Exercício:", error);
       throw error;
@@ -66,7 +62,6 @@ const FichaExercicioDao = {
   },
 
   async findAllByFichaId(fichaId) {
-    // Busca todas as ligações para uma ficha específica
     try {
       const ligacoes = await FichaExercicio.findAll({
         where: { ficha_id: fichaId },

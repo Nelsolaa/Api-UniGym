@@ -5,16 +5,16 @@ const { authMiddleware } = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
-// 🔹 Criar Aluno
+// Criar Aluno
 router.post('/register', AlunoController.createAluno);
 
-// 🔹 Obter Aluno específico (perfil)
-router.get('/:id/search', AlunoController.getAlunoById);
+// Obter Aluno específico (perfil)
+router.get('/:id/search', authMiddleware , AlunoController.getAlunoById);
 
-// 🔹 Atualizar Aluno
-router.put('/:id/update', AlunoController.updateAluno);
+// Atualizar Aluno
+router.put('/:id/update', authMiddleware, AlunoController.updateAluno);
 
-// 🔹 Deletar Aluno
-router.delete('/:id/delete', AlunoController.deleteAluno);
+// Deletar Aluno
+router.delete('/:id/delete',authMiddleware ,AlunoController.deleteAluno);
 
 module.exports = { alunoRoutes: router };

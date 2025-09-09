@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-// Importe seus modelos. Os nomes dos arquivos devem estar corretos.
 const { Aluno } = require('../model/AlunosDb'); 
 const { Professor } = require('../model/ProfessoresDb');
 
@@ -59,17 +58,14 @@ const AuthService = {
             return res.status(400).json({ error: 'Email e nova senha são obrigatórios.' });
         }
 
-        // Tenta achar em Alunos ou Professores
         let user = await Aluno.findOne({ where: { email } }) || await Professor.findOne({ where: { email } });
 
         if (!user) {
             return res.status(404).json({ error: 'Usuário com este email não encontrado.' });
         }
 
-        // Hash da nova senha
         const password_hash = await bcrypt.hash(newPassword, 10);
         
-        // Atualiza o usuário encontrado
         await user.update({ password_hash });
 
         res.status(200).json({ message: 'Senha atualizada com sucesso!' });

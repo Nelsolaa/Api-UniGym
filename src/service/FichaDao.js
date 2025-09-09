@@ -5,7 +5,6 @@ const FichaDao = {
   async createFicha(fichaData) {
     const { grupo_muscular, exercicios } = fichaData;
 
-    // Validação básica
     if (!grupo_muscular) {
       throw new Error('Grupo muscular é obrigatório.');
     }
@@ -31,7 +30,6 @@ const FichaDao = {
       }
 
       await t.commit();
-      // Retorna a ficha com os exercícios incluídos
       return this.getFichaById(novaFicha.id);
 
     } catch (error) {
@@ -68,7 +66,7 @@ const FichaDao = {
           model: Exercicio,
           as: 'exercicios',
           attributes: ['id', 'nome_exercicio', 'descricao'],
-          through: { // Para pegar os atributos da tabela de junção
+          through: { 
             model: FichaExercicio,
             attributes: ['series', 'tempo_descanso']
           }
@@ -96,8 +94,6 @@ const FichaDao = {
       }
 
       if (exercicios !== undefined) {
-        // Remove os exercícios antigos e adiciona os novos
-        // Esta é uma forma simples; pode ser otimizada para diffing se necessário
         await FichaExercicio.destroy({ where: { ficha_id: fichaId }, transaction: t });
 
         if (exercicios.length > 0) {
@@ -112,7 +108,7 @@ const FichaDao = {
       }
 
       await t.commit();
-      return this.getFichaById(fichaId); // Retorna a ficha atualizada com exercícios
+      return this.getFichaById(fichaId); 
 
     } catch (error) {
       await t.rollback();
@@ -123,7 +119,6 @@ const FichaDao = {
 
   async deleteFicha(fichaId) {
     try {
-      // A tabela FichaExercicio tem ON DELETE CASCADE, então as associações serão removidas
       const deletedRows = await Ficha.destroy({
         where: { id: fichaId },
       });
@@ -134,19 +129,16 @@ const FichaDao = {
     }
   },
 
-  // Métodos específicos para gerenciar exercícios em uma ficha
 
   async addExercicioToFicha(fichaId, exercicioData) {
     const { exercicio_id, series, tempo_descanso } = exercicioData;
     try {
-      // Verifica se a ficha e o exercício existem
       const ficha = await Ficha.findByPk(fichaId);
       const exercicio = await Exercicio.findByPk(exercicio_id);
 
       if (!ficha) throw new Error('Ficha não encontrada.');
       if (!exercicio) throw new Error('Exercício não encontrado.');
 
-      // Verifica se a ligação já existe para evitar duplicidade
       const existingLink = await FichaExercicio.findOne({
         where: { ficha_id: fichaId, exercicio_id: exercicio_id }
       });

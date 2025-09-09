@@ -1,4 +1,3 @@
-// Importações necessárias
 const express = require('express');
 const cors = require('cors');
 const { sequelize } = require('./src/config/config');
@@ -11,18 +10,14 @@ const { aulaRoutes } = require('./src/routes/aulaRoutes');
 const { fichaRoutes } = require('./src/routes/fichaRoutes');
 const { fichaExercicioRoutes } = require('./src/routes/fichaExercicioRoutes');
 
-// Carrega variáveis de ambiente e força a inclusão do driver 'pg'
 require('dotenv').config();
 require('pg');
 
-// Inicializa a aplicação Express
 const app = express();
 
-// Configura os middlewares
-app.use(express.json()); // Para interpretar o corpo das requisições como JSON
-app.use(cors());         // Para permitir requisições de outras origens
+app.use(express.json()); 
+app.use(cors());         
 
-// Configura as rotas da sua API
 app.use('/api/professores', professorRoutes);
 app.use('/auth', authRoutes);
 app.use('/api', protectedRoutes);
@@ -32,8 +27,7 @@ app.use('/api/aulas', aulaRoutes);
 app.use('/api/fichas', fichaRoutes);
 app.use('/api/ficha-exercicios-admin', fichaExercicioRoutes);
 
-// Sincroniza o banco de dados.
-// Isso inicia o processo, mas não impede que o app seja exportado.
+
 sequelize.sync()
   .then(() => {
     console.log('Conexão e sincronização com o banco de dados bem-sucedidas!');
@@ -42,6 +36,4 @@ sequelize.sync()
     console.error('Erro ao conectar ou sincronizar com o banco de dados:', err);
   });
 
-// Exporta o app para que a Vercel possa usá-lo
-// Esta DEVE ser a última linha e no formato correto.
 module.exports = app;

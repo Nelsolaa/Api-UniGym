@@ -20,4 +20,4 @@ const Exercicio = sequelize.define('Exercicio', {
   timestamps: false,   
 });
 
-module.exports = { Exercicio }; // Exporta o modelo 'Exercicio'
+module.exports = { Exercicio }; 

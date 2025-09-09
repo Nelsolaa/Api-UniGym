@@ -2,7 +2,6 @@ const { FichaExercicioDao } = require("../service/ExercicioFichaDao");
 
 const FichaExercicioController = {
 
-  // ROTA: POST /api/ficha-exercicios (ou similar)
   async createFichaExercicio(req, res) {
     try {
       const { ficha_id, exercicio_id, series, tempo_descanso } = req.body;
@@ -24,7 +23,6 @@ const FichaExercicioController = {
     }
   },
 
-  // ROTA: GET /api/ficha-exercicios/:fichaId/:exercicioId (ou similar)
   async getFichaExercicioByPks(req, res) {
     try {
       const { fichaId, exercicioId } = req.params;
@@ -40,7 +38,6 @@ const FichaExercicioController = {
     }
   },
 
-  // ROTA: GET /api/ficha-exercicios/ficha/:fichaId (ou similar)
   async getExerciciosByFichaId(req, res) {
       try {
           const { fichaId } = req.params;
@@ -55,7 +52,6 @@ const FichaExercicioController = {
       }
   },
 
-  // ROTA: PUT /api/ficha-exercicios/:fichaId/:exercicioId (ou similar)
   async updateFichaExercicioByPks(req, res) {
     try {
       const { fichaId, exercicioId } = req.params;
@@ -81,7 +77,6 @@ const FichaExercicioController = {
     }
   },
 
-  // ROTA: DELETE /api/ficha-exercicios/:fichaId/:exercicioId (ou similar)
   async deleteFichaExercicioByPks(req, res) {
     try {
       const { fichaId, exercicioId } = req.params;

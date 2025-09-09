@@ -1,12 +1,10 @@
-const { FichaDao } = require('../service/FichaDao'); // ⚠️ Verifique o caminho!
+const { FichaDao } = require('../service/FichaDao'); 
 
 const FichaController = {
 
-  // --- CRUD Principal da Ficha ---
-
   async createFicha(req, res) {
     try {
-      // Espera { grupo_muscular: "Peito", exercicios: [{ exercicio_id: 1, series: 4, tempo_descanso: 60 }, ...] }
+  
       const fichaData = req.body;
       if (!fichaData.grupo_muscular) {
         return res.status(400).json({ error: 'Grupo muscular é obrigatório.' });
@@ -70,14 +68,12 @@ const FichaController = {
       if (!deleted) {
         return res.status(404).json({ error: 'Ficha não encontrada para deletar.' });
       }
-      res.status(204).send(); // Sucesso, sem conteúdo
+      res.status(204).send();
     } catch (error) {
       console.error("Erro em deleteFicha:", error);
       res.status(500).json({ error: 'Erro interno ao deletar ficha.' });
     }
   },
-
-  // --- Gerenciamento de Exercícios DENTRO de uma Ficha ---
 
   async addExercicioToFicha(req, res) {
     try {
@@ -117,7 +113,7 @@ const FichaController = {
       if (!updated) {
         return res.status(404).json({ error: 'Exercício não encontrado nesta ficha ou nenhum dado alterado.' });
       }
-      // Para retornar o exercício atualizado, você pode chamar getFichaById ou um método específico do DAO
+
       const fichaAtualizada = await FichaDao.getFichaById(fichaId);
       res.json({ message: 'Exercício atualizado na ficha.', ficha: fichaAtualizada });
     } catch (error) {

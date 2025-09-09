@@ -1,63 +1,31 @@
 const express = require('express');
 const { AulaController } = require('../controller/AulaController');
 const { authMiddleware } = require('../middleware/authMiddleware');
-// Vamos precisar do checkRole para garantir que só professores criem/deletem
-// e só alunos agendem.
 
 const router = express.Router();
 
-// ------------------------------------------------------------------
-// ROTAS DE CONSULTA (GET)
-// ------------------------------------------------------------------
-
-// Rota principal para buscar aulas. Usa query params para filtrar.
-// Qualquer usuário logado (aluno ou prof) pode acessar.
-router.get(
-    '/',
-    AulaController.findAulas
-);
+// Rota principal para buscar aulas.
+router.get('/', authMiddleware, AulaController.findAulas);
 
 // Rota para buscar uma aula/slot específico pelo ID.
-// Qualquer usuário logado pode acessar.
-router.get(
-    '/:id',
-    AulaController.getAulaById
-);
-
-// ------------------------------------------------------------------
-// ROTAS DE AÇÃO (POST, PUT, DELETE)
-// ------------------------------------------------------------------
+router.get('/:id', authMiddleware, AulaController.getAulaById);
 
 // Rota para Professor criar novos slots disponíveis.
-// Só professores logados podem acessar.
-router.post(
-    '/register',
-    AulaController.createAula
-);
+router.post('/register', authMiddleware, AulaController.createAula);
 
 // Rota para Aluno agendar (reservar) um slot 'Disponivel'.
 // Só alunos logados podem acessar.
-router.put(
-    '/:id/agendar', // Rota específica para a ação de agenda,
-    AulaController.agendarAula
-);
+router.put('/:id/agendar', authMiddleware, AulaController.agendarAula);
 
 // Rota para cancelar uma aula agendada.
 // Qualquer usuário logado PODE TENTAR (a lógica no controller/service decide se PODE MESMO).
-router.put(
-    '/:id/cancelar',
-    AulaController.cancelarAula
-);
+router.put('/:id/cancelar',authMiddleware, AulaController.cancelarAula);
 
 // Rota para Professor deletar um slot (provavelmente um que esteja 'Disponivel').
 // Só professores logados podem acessar.
-router.delete(
-    '/:id/delete',
-    AulaController.deleteAula
-);
-router.get(
-    '/:professorId/agendadas',
-    AulaController.findAulasAgendadasByProfessor
-);
+router.delete('/:id/delete',authMiddleware, AulaController.deleteAula);
+
+// Rota para buscar todas as aulas agendadas de um aluno específico.
+router.get('/:professorId/agendadas', authMiddleware, AulaController.findAulasAgendadasByProfessor);
 
 module.exports = { aulaRoutes: router };

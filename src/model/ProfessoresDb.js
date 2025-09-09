@@ -1,39 +1,39 @@
 const { DataTypes } = require('sequelize');
-const { sequelize } = require('../config/config'); // Mantenha o caminho correto para sua config
+const { sequelize } = require('../config/config');
 
-const Professor = sequelize.define('Professor', { // Nome do Modelo (geralmente singular)
+const Professor = sequelize.define('Professor', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
   },
   nome: {
-    type: DataTypes.STRING, // VARCHAR(255) é o padrão
+    type: DataTypes.STRING, 
     allowNull: false,
   },
   data_nascimento: {
-    type: DataTypes.DATEONLY, // Ideal para campos DATE do SQL (apenas data)
+    type: DataTypes.DATEONLY, 
     allowNull: false,
   },
   email: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true, // Garante a unicidade
+    unique: true, 
   },
   password_hash: {
     type: DataTypes.STRING,
     allowNull: false,
   },
   sexo: {
-    type: DataTypes.STRING(50), // Define o tamanho para VARCHAR(50)
-    allowNull: true, // Permite nulo, já que é opcional
+    type: DataTypes.STRING(50), 
+    allowNull: true, 
   },
     tipo: {
     type: DataTypes.STRING(50)
   },
 }, {
-  tableName: 'professores',   // Nome exato da tabela no banco
-  timestamps: false,   // Desabilita as colunas createdAt e updatedAt
+  tableName: 'professores',   
+  timestamps: false,   
 });
 
-module.exports = { Professor }; // Exporta o modelo 'Professor'
+module.exports = { Professor }; 
